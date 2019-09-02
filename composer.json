@@ -1,0 +1,33 @@
+{
+  "name": "hmmh/news-to-blog",
+  "description": "hmmh News to blog migration",
+  "keywords": ["typo3", "news", "blog", "migration"],
+  "type": "typo3-cms-extension",
+  "license": "GPL-3.0-or-later",
+
+  "authors": [
+    {
+      "name": "Sascha Wilking",
+      "email": "sascha.wilking@hmmh.de",
+      "homepage": "https://hmmh.de/",
+      "role": "Developer"
+    }
+  ],
+
+  "require": {
+    "php": ">=7.2",
+    "typo3/cms-core": "^9.5.0",
+    "t3g/blog": "^9.1.0",
+    "georgringer/news": "^7.2.0"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "HMMH\\NewsToBlog\\": "Classes/"
+    }
+  },
+
+  "replace": {
+    "news_to_blog": "self.version"
+  }
+}

@@ -1,0 +1,11 @@
+config.tx_extbase {
+  persistence {
+    classes {
+      HMMH\NewsToBlog\Domain\Model\TtContent {
+        mapping {
+          tableName = tt_content
+        }
+      }
+    }
+  }
+}
