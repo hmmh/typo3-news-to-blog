@@ -1,0 +1,1 @@
+# typo3-news-to-blog
