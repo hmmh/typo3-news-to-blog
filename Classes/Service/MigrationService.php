@@ -328,7 +328,7 @@ class MigrationService
             $contentData['tt_content'][$id]['header'] = $news->getTitle();
             $contentData['tt_content'][$id]['bodytext'] = $news->getBodytext();
 
-            list($contentData) = $this->emitCopyNewsLocalizationToContentElementsDefault($contentData, $news);
+            list($contentData) = $this->emitCopyNewsLocalizationToContentElementsDefault($contentData, $localizedContent, $news);
 
             $this->writeln(sprintf('Translate localized content element (UID: %d)', $id));
         }
@@ -352,7 +352,7 @@ class MigrationService
                 $contentData['tt_content'][$id]['bodytext'] = $list;
             }
 
-            list($contentData) = $this->emitCopyNewsLocalizationToContentElementsRelated($contentData, $news);
+            list($contentData) = $this->emitCopyNewsLocalizationToContentElementsRelated($contentData, $localizedRelated, $news);
 
             $this->writeln(sprintf('Translate localized related news (UID: %d)', $id));
         }
@@ -751,35 +751,37 @@ class MigrationService
 
     /**
      * @param array $contentData
+     * @param array $localizedContent
      * @param News  $news
      *
      * @return array
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
-    protected function emitCopyNewsLocalizationToContentElementsDefault(array $contentData, News $news)
+    protected function emitCopyNewsLocalizationToContentElementsDefault(array $contentData, array $localizedContent, News $news)
     {
         return $this->signalSlotDispatcher->dispatch(
             self::class,
             'copyNewsLocalizationToContentElementsDefault',
-            [$contentData, $news, $this]
+            [$contentData, $localizedContent, $news, $this]
         );
     }
 
     /**
      * @param $contentData
+     * @param array $localizedContent
      * @param $news
      *
      * @return array
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
-    protected function emitCopyNewsLocalizationToContentElementsRelated($contentData, $news)
+    protected function emitCopyNewsLocalizationToContentElementsRelated(array $contentData, array $localizedContent, News $news)
     {
         return $this->signalSlotDispatcher->dispatch(
             self::class,
             'copyNewsLocalizationToContentElementsRelated',
-            [$contentData, $news, $this]
+            [$contentData, $localizedContent, $news, $this]
         );
     }
 
