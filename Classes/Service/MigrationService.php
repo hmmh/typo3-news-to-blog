@@ -446,23 +446,23 @@ class MigrationService
         foreach ($news->getFalMedia() as $media) {
             /** @var $media FileReference */
             $fileReference = $fileReferenceRepository->getFileReferences($page['uid'], $media->getFileUid());
-            if (empty($fileReference)) {
+            if (empty($fileReference['uid'])) {
                 $mediaUid = StringUtility::getUniqueId('NEW');
-                $importData['sys_file_reference'][$mediaUid] = [
-                    'table_local' => 'sys_file',
-                    'uid_local' => $media->getOriginalResource()->getOriginalFile()->getUid(),
-                    'tablenames' => 'pages',
-                    'uid_foreign' => $page['uid'],
-                    'fieldname' => 'media',
-                    'pid' => $page['uid'],
-                    'title' => $media->getTitle(),
-                    'description' => $media->getDescription(),
-                    'alternative' => $media->getAlternative()
-                ];
-                $mediaUids[] = $mediaUid;
             } else {
-                $fileReferenceRepository->updatePageAssets($media, $page['uid']);
+                $mediaUid = $fileReference['uid'];
             }
+            $importData['sys_file_reference'][$mediaUid] = [
+                'table_local' => 'sys_file',
+                'uid_local' => $media->getOriginalResource()->getOriginalFile()->getUid(),
+                'tablenames' => 'pages',
+                'uid_foreign' => $page['uid'],
+                'fieldname' => 'media',
+                'pid' => $page['uid'],
+                'title' => $media->getTitle(),
+                'description' => $media->getDescription(),
+                'alternative' => $media->getAlternative()
+            ];
+            $mediaUids[] = $mediaUid;
         }
         $importData['pages'][$page['uid']]['media'] = implode(',', $mediaUids);
     }
